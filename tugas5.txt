@@ -1,0 +1,64 @@
+Microsoft Windows [Version 10.0.22621.3447]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\MyBook Z Series>cd \xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use dbpos_sib6
+Database changed
+MariaDB [dbpos_sib6]> DELIMITER $$
+MariaDB [dbpos_sib6]> CREATE FUNCTION kategori_harga(harga_jual DOUBLE)
+    -> RETURNS VARCHAR(40)
+    -> BEGIN
+    -> DECLARE kategori VARCHAR(40);
+    -> SET kategori = CASE
+    -> WHEN harga_jual BETWEEN 0 AND 500000 THEN 'murah'
+    -> WHEN harga_jual BETWEEN 500001 AND 3000000 THEN 'sedang'
+    -> WHEN harga_jual BETWEEN 3000001 AND 10000000 THEN 'mahal'
+    -> ELSE 'sangat mahal'
+    -> END;
+    -> RETURN kategori;
+    -> END $$
+Query OK, 0 rows affected (0.024 sec)
+
+MariaDB [dbpos_sib6]> DELIMITER ;
+MariaDB [dbpos_sib6]> SELECT nama, harga_jual, kategori_harga(harga_jual) AS kategori_harga FROM produk;
++-------------------+------------+----------------+
+| nama              | harga_jual | kategori_harga |
++-------------------+------------+----------------+
+| Televisi 21 inchs |   50500000 | sangat mahal   |
+| Televisi 40 inch  |    7440000 | mahal          |
+| Kulkas 2 pintu    |    4680000 | mahal          |
+| Meja Makan        |     600000 | sedang         |
+| Teh Kotak         |       3850 | murah          |
+| PC Desktop HP     |    9984000 | mahal          |
+| Teh Botol         |       2750 | murah          |
+| Notebook Acer S   |   11232000 | sangat mahal   |
+| Notebook Lenovo   |   12480000 | sangat mahal   |
+| Laptop Lenovo     |   16000000 | sangat mahal   |
+| Kopi              |      33000 | murah          |
+| Teh Sosro 2       |      15000 | murah          |
+| Laptop Asus       |    5000000 | mahal          |
+| Televisi 22 inc`  |   50500000 | sangat mahal   |
+| Televisi 23 inc   |   50500000 | sangat mahal   |
+| Televisi 24 inc   |   50500000 | sangat mahal   |
+| Televisi 25 inc   |   50500000 | sangat mahal   |
+| Televisi 27 inc   |   50500000 | sangat mahal   |
+| Televisi 28 inc   |   50500000 | sangat mahal   |
+| Televisi 29 inc   |   50500000 | sangat mahal   |
+| Teh Pucuk         |       5500 | murah          |
+| Teh Pucuk2        |       5500 | murah          |
+| Laptop Axioo      |    7500000 | mahal          |
+| Laptop Advan      |    6000000 | mahal          |
+| Televisi 50 inc   |    5500000 | mahal          |
++-------------------+------------+----------------+
+25 rows in set (0.002 sec)
